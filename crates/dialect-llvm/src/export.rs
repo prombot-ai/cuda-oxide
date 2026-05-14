@@ -1798,6 +1798,27 @@ impl<'a> ModuleExportState<'a> {
                 self.export_value(rhs, value_names, output)?;
                 writeln!(output).unwrap();
             }
+            id if id == ops::SelectOp::get_opid_static() => {
+                // LLVM IR: %res = select i1 %cond, T %true_val, T %false_val
+                let res = op_ref.get_result(0);
+                let res_name = value_names.get(&res).unwrap();
+                let cond = op_ref.get_operand(0);
+                let true_val = op_ref.get_operand(1);
+                let false_val = op_ref.get_operand(2);
+                let val_ty = true_val.get_type(self.ctx);
+
+                write!(output, "  {res_name} = select i1 ").unwrap();
+                self.export_value(cond, value_names, output)?;
+                write!(output, ", ").unwrap();
+                self.export_type(val_ty, output)?;
+                write!(output, " ").unwrap();
+                self.export_value(true_val, value_names, output)?;
+                write!(output, ", ").unwrap();
+                self.export_type(val_ty, output)?;
+                write!(output, " ").unwrap();
+                self.export_value(false_val, value_names, output)?;
+                writeln!(output).unwrap();
+            }
             id if id == ops::FCmpOp::get_opid_static() => {
                 let res = op_ref.get_result(0);
                 let res_name = value_names.get(&res).unwrap();
