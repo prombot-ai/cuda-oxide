@@ -62,8 +62,11 @@ fn pinned_host_buffer_roundtrips_through_device_buffer() {
 
     let input = PinnedHostBuffer::from_slice(&ctx, &[1_u32, 2, 3, 4])
         .expect("failed to allocate pinned input");
-    let device =
-        DeviceBuffer::from_pinned_host(&stream, &input).expect("failed to copy input to device");
+    // SAFETY: `input` is kept alive for the entire roundtrip, and
+    // `copy_to_pinned_host` synchronizes before returning, so both pinned
+    // buffers outlive their in-flight copies.
+    let device = unsafe { DeviceBuffer::from_pinned_host(&stream, &input) }
+        .expect("failed to copy input to device");
     let mut output = PinnedHostBuffer::<u32>::zeroed(&ctx, input.len())
         .expect("failed to allocate pinned output");
 
@@ -81,15 +84,17 @@ fn pinned_host_buffer_async_copy_can_be_synchronized_later() {
 
     let input = PinnedHostBuffer::from_slice(&ctx, &[5_u32, 6, 7, 8])
         .expect("failed to allocate pinned input");
-    let device =
-        DeviceBuffer::from_pinned_host(&stream, &input).expect("failed to copy input to device");
+    // SAFETY: both pinned buffers are kept alive past `stream.synchronize()`
+    // below, satisfying the contract of the async pinned helpers.
+    let device = unsafe { DeviceBuffer::from_pinned_host(&stream, &input) }
+        .expect("failed to copy input to device");
     let mut output = PinnedHostBuffer::<u32>::zeroed(&ctx, input.len())
         .expect("failed to allocate pinned output");
 
-    device
-        .copy_to_pinned_host_async(&stream, &mut output)
+    unsafe { device.copy_to_pinned_host_async(&stream, &mut output) }
         .expect("failed to enqueue output copy");
     stream.synchronize().expect("failed to synchronize stream");
 
     assert_eq!(output.as_slice(), input.as_slice());
 }
+
