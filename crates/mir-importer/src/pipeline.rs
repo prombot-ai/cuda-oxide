@@ -920,10 +920,13 @@ fn generate_ptx(ll_path: &Path, ptx_path: &Path) -> Result<String, PipelineError
 
     match last_error.is_empty() {
         true => Err(PipelineError::PtxGeneration(
-            "No working llc-21 or llc-22 found on PATH.\n\
-             cuda-oxide requires LLVM 21+ (earlier versions reject the TMA / \
-             tcgen05 / WGMMA intrinsic signatures we emit).\n\
-             Install with: sudo apt install llvm-21  (or llvm-22)\n\
+            "No working llc found.\n\
+             cuda-oxide tries (in order): CUDA_OXIDE_LLC, the Rust toolchain's \
+             llvm-tools llc, then llc-22 / llc-21 / llc on PATH. \
+             LLVM 21+ is required (earlier versions reject the TMA / tcgen05 / \
+             WGMMA intrinsic signatures we emit).\n\
+             Easiest fix: `rustup component add llvm-tools` (auto-picked up).\n\
+             Alternative: `sudo apt install llvm-21` (or `llvm-22`).\n\
              Or set CUDA_OXIDE_LLC=/path/to/llc to use a specific binary."
                 .to_string(),
         )),
