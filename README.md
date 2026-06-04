@@ -216,7 +216,7 @@ compiles a Rust kernel to PTX, launches it on the GPU, and prints
 
 ## Examples
 
-**56 examples** in `crates/rustc-codegen-cuda/examples/`. Highlights:
+**60+ examples** in `crates/rustc-codegen-cuda/examples/`. Highlights:
 
 | Example              | Description                                                              |
 |----------------------|--------------------------------------------------------------------------|
@@ -229,7 +229,7 @@ compiles a Rust kernel to PTX, launches it on the GPU, and prints
 | `cluster`            | Thread Block Clusters + DSMEM ring exchange (Hopper+)                    |
 | `async_mlp`          | Async MLP pipeline: GEMM → MatVec → ReLU across concurrent streams       |
 | `mathdx_ffi_test`    | cuFFTDx thread-level FFT + cuBLASDx block-level GEMM                     |
-| `device_ffi_test`    | Device FFI: Rust kernels calling C++ CCCL warp-level reductions via LTOIR |
+| `device_ffi_test`    | Device FFI: Rust kernels calling C++ CCCL warp-level reductions via LTOIR|
 | `async_vecadd`       | Async GPU execution with `cuda-async` and `DeviceOperation`              |
 | `cross_crate_kernel` | Library crates defining kernels, bundled into binaries                   |
 
@@ -248,7 +248,7 @@ cargo oxide run gemm_sol
 | `cuda-host`         | Typed module loading, launch helpers, LTOIR loader                        |
 | `cuda-macros`       | Proc macros (`#[cuda_module]`, `#[kernel]`, `gpu_printf!`)                |
 | `cuda-bindings`     | Raw `bindgen` FFI bindings to `cuda.h`                                    |
-| `cuda-core`         | Safe RAII wrappers (`CudaContext`, `CudaStream`, `DeviceBuffer<T>`, `PinnedHostBuffer<T>`) |
+| `cuda-core`         | Safe RAII wrappers (`CudaContext`, `CudaStream`, `DeviceBuffer<T>`, ...)  |
 | `cuda-async`        | Async execution layer (`DeviceOperation`, `DeviceFuture`, `DeviceBox<T>`) |
 | `libnvvm-sys`       | `dlopen` bindings to libNVVM (used by `cuda-host::ltoir`)                 |
 | `nvjitlink-sys`     | `dlopen` bindings to nvJitLink (used by `cuda-host::ltoir`)               |
