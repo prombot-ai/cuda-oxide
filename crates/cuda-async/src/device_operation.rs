@@ -890,6 +890,19 @@ where
 /// Blanket impl: any operation producing `(T0, T1)` is unzippable.
 impl<T0: Send, T1: Send, DI: DeviceOperation<Output = (T0, T1)>> Unzippable2<T0, T1> for DI {}
 
+/// Splits a tuple-producing [`DeviceOperation`] into per-element operations.
+///
+/// ```ignore
+/// let (left, right) = unzip!(pair_op);
+/// ```
+#[macro_export]
+macro_rules! unzip {
+    ($arg0:expr) => {
+        $arg0.unzip()
+    };
+}
+pub use unzip;
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -928,16 +941,3 @@ mod tests {
         assert_eq!(result, Err(operation_error));
     }
 }
-
-/// Splits a tuple-producing [`DeviceOperation`] into per-element operations.
-///
-/// ```ignore
-/// let (left, right) = unzip!(pair_op);
-/// ```
-#[macro_export]
-macro_rules! unzip {
-    ($arg0:expr) => {
-        $arg0.unzip()
-    };
-}
-pub use unzip;
