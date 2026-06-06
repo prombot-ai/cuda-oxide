@@ -56,3 +56,7 @@ pipeline example:
 # Run every example with GPU-aware gating (see scripts/smoketest.sh --help)
 smoketest *args:
     scripts/smoketest.sh {{args}}
+
+# Verify every error* example is in STATUS.md and smoketest.sh ERROR_EXAMPLES
+check-errors:
+    scripts/check-error-example-status.sh

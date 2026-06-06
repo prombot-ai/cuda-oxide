@@ -101,33 +101,36 @@ src/
 
 The `examples/` directory contains standalone kernel crates that exercise different features:
 
-| Example                      | What it covers                                       |
-|------------------------------|------------------------------------------------------|
-| `vecadd`                     | Basic vector addition -- the "hello world" kernel    |
-| `generic`                    | Generic kernels (`scale<T>`)                         |
-| `manual_launch_generic`      | Lower-level generic launch API regression            |
-| `cuda_module_contract`       | Typed launch ABI argument marshalling                |
-| `abi_hmm`                    | HMM pointers, struct layout, closures                |
-| `device_closures`            | Move and non-move closures passed to kernels         |
-| `cross_crate_kernel`         | Kernels defined in a library crate                   |
-| `async_vecadd`               | Async CUDA streams with `cuda-async`                 |
-| `async_mlp`                  | Multi-layer perceptron using async streams           |
-| `sharedmem`                  | Shared memory usage                                  |
-| `dynamic_smem`               | Dynamic shared memory allocation                     |
-| `barrier`                    | `__syncthreads` and barrier semantics                |
-| `atomics`                    | Atomic operations on device                          |
-| `printf`                     | Device-side `printf` via FFI                         |
-| `tma_copy`                   | Tensor Memory Accelerator copies (Hopper+)           |
-| `tma_multicast`              | TMA with multicast across CTAs                       |
-| `wgmma`                      | Warpgroup MMA (Hopper tensor cores)                  |
-| `tcgen05` / `tcgen05_matmul` | 5th-gen tensor cores (Blackwell datacenter)          |
-| `gemm` / `gemm_sol`          | GEMM implementations at various optimization levels  |
-| `cluster`                    | Thread block clusters                                |
-| `clc`                        | Cluster Launch Control                               |
-| `warp_reduce`                | Warp-level reductions                                |
-| `cpp_consumes_rust_device`   | C++ host code consuming Rust-generated PTX           |
+| Example                      | What it covers                                             |
+|------------------------------|------------------------------------------------------------|
+| `vecadd`                     | Basic vector addition -- the "hello world" kernel          |
+| `generic`                    | Generic kernels (`scale<T>`)                               |
+| `manual_launch_generic`      | Lower-level generic launch API regression                  |
+| `cuda_module_contract`       | Typed launch ABI argument marshalling                      |
+| `abi_hmm`                    | HMM pointers, struct layout, closures                      |
+| `device_closures`            | Move and non-move closures passed to kernels               |
+| `cross_crate_kernel`         | Kernels defined in a library crate                         |
+| `async_vecadd`               | Async CUDA streams with `cuda-async`                       |
+| `async_mlp`                  | Multi-layer perceptron using async streams                 |
+| `sharedmem`                  | Shared memory usage                                        |
+| `dynamic_smem`               | Dynamic shared memory allocation                           |
+| `barrier`                    | `__syncthreads` and barrier semantics                      |
+| `atomics`                    | Atomic operations on device                                |
+| `printf`                     | Device-side `printf` via FFI                               |
+| `tma_copy`                   | Tensor Memory Accelerator copies (Hopper+)                 |
+| `tma_multicast`              | TMA with multicast across CTAs                             |
+| `wgmma`                      | Warpgroup MMA (Hopper tensor cores)                        |
+| `tcgen05` / `tcgen05_matmul` | 5th-gen tensor cores (Blackwell datacenter)                |
+| `gemm` / `gemm_sol`          | GEMM implementations at various optimization levels        |
+| `cluster`                    | Thread block clusters                                      |
+| `clc`                        | Cluster Launch Control                                     |
+| `warp_reduce`                | Warp-level reductions                                      |
+| `cpp_consumes_rust_device`   | C++ host code consuming Rust-generated PTX                 |
 | `device_ffi_test`            | Rust kernels calling external C++/CCCL functions via LTOIR |
 | `mathdx_ffi_test`            | MathDx FFI: cuFFTDx thread-level FFT + cuBLASDx block GEMM |
+
+Examples starting with `error_` are expected to fail. See [STATUS.md](STATUS.md)
+for what each one tests and why it fails.
 
 Run any example with:
 

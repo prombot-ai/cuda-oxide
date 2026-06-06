@@ -8,9 +8,10 @@
 # category-specific verdict rule is applied to the cargo output:
 #
 #   standard     -- execution must succeed (SUCCESS/PASS/Complete marker).
-#   error        -- compilation must fail with a recognized diagnostic; the
-#                   example is an intentional negative test of our codegen
-#                   errors. Signal termination (crash) is never accepted.
+#   error        -- compilation must fail with a recognized diagnostic.
+#                   Covers both intentional diagnostic fixtures and known
+#                   support gaps (see STATUS.md). Signal termination is
+#                   never accepted.
 #   tcgen05      -- 5th-gen tensor cores; sm_100 datacenter only. On sm_100
 #                   require full execution; elsewhere PTX compilation is
 #                   sufficient.
@@ -24,8 +25,9 @@
 #                   unset), in which case we require the cuda-oxide
 #                   NVVM IR (`.ll`) to have been generated.
 #
-# The categorization is just a pair of bash arrays at the top of the file.
-# Add/remove examples there when introducing a new example.
+# Categories are bash arrays at the top of this file. When adding an
+# error* example, also update STATUS.md and run
+# scripts/check-error-example-status.sh to verify both are in sync.
 #
 # See --help for runtime flags.
 
